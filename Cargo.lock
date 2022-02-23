@@ -978,6 +978,7 @@ name = "hello-actix"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "tokio 1.17.0",
  "web3",
 ]
 
