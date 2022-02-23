@@ -6,6 +6,12 @@ PROJECT=sandbox-266608
 REPOSITORY=rust-web3
 IMAGE_URI=$(HOST)/$(PROJECT)/$(REPOSITORY)/$(NAME):$(TAG)
 
+.PHONY: deploy
+deploy:
+	gcloud compute instances create-with-container $(NAME)	\
+		--container-image $(IMAGE_URI)
+
+
 .PHONY: push
 push:
 	gcloud auth configure-docker $(HOST)
@@ -25,8 +31,8 @@ dev:
 	docker-compose up
 
 .PHONY: run
-run-local: build
-	docker run --rm web3-server
+run-local:
+	docker run --rm $(NAME)
 
 .PHONY: build
 build:
