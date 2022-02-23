@@ -9,8 +9,11 @@ IMAGE_URI=$(HOST)/$(PROJECT)/$(REPOSITORY)/$(NAME):$(TAG)
 .PHONY: deploy
 deploy:
 	gcloud compute instances create-with-container $(NAME)	\
-		--container-image $(IMAGE_URI)
-
+		--container-image $(IMAGE_URI)	\
+		--tags allow-http-test	||	\
+	gcloud compute instances update-container $(NAME)	\
+		--container-image $(IMAGE_URI)	&&	\
+	gcloud compute instances add-tags $(NAME) --tags=allow-http-test
 
 .PHONY: push
 push:
