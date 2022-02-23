@@ -1,5 +1,4 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, Result};
 use std::sync::Mutex;
 
 struct AppStateWithCounter {
@@ -27,6 +26,14 @@ async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")
 }
 
+/// extract path info from "/users/{user_id}/{friend}" url
+/// {user_id} - deserializes to a u32
+/// {friend} - deserializes to a String
+#[get("/users/{user_id}/{friend}")] // <- define path parameters
+async fn welcome(web::Path((user_id, friend)): web::Path<(u32, String)>) -> Result<String> {
+    Ok(format!("Welcome {}, user_id {}!", friend, user_id))
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let counter = web::Data::new(AppStateWithCounter {
@@ -43,6 +50,7 @@ async fn main() -> std::io::Result<()> {
                     .app_data(counter.clone())
                     .route("", web::get().to(index)),
             )
+            .service(welcome)
     })
     .bind("127.0.0.1:8080")?
     .run()
