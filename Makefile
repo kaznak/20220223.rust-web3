@@ -32,7 +32,7 @@ dev:
 
 .PHONY: run
 run-local:
-	docker run --rm $(NAME)
+	docker run --rm -p 8080:8080 $(NAME)
 
 .PHONY: build
 build:
