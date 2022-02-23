@@ -1,6 +1,8 @@
 #[tokio::main]
 async fn main() -> web3::Result<()> {
-    let transport = web3::transports::Http::new("https://mainnet.infura.io/v3/a7f5bdd129cc4688bb70483556e3799f")?;
+    let transport = web3::transports::Http::new(
+        "https://mainnet.infura.io/v3/a7f5bdd129cc4688bb70483556e3799f",
+    )?;
     let web3 = web3::Web3::new(transport);
 
     println!("Calling accounts.");
