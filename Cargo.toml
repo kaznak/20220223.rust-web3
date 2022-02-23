@@ -1,5 +1,5 @@
 [package]
-name = "hello-actix"
+name = "rust-web3"
 version = "0.1.0"
 edition = "2021"
 
